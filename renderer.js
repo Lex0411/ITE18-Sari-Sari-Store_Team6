@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const editStock = document.getElementById('edit-product-stock');
   const updateProductBtn = document.getElementById('update-product');
   
+  // Delete confirmation
+  const confirmDeleteBtn = document.getElementById('confirm-delete');
+  
   let products = [];
   let currentEditIndex = null;
+  let deleteIndex = null;
 
   // Load products from file when app starts
   async function loadProducts() {
@@ -88,11 +92,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Close modal and reset form
     productForm.reset();
     const modal = bootstrap.Modal.getInstance(document.getElementById('addProductModal'));
-    modal.hide();
+    if (modal) {
+      modal.hide();
+    }
   });
 
   // Handle edit and delete button clicks
-  productTableBody.addEventListener('click', async (e) => {
+  productTableBody.addEventListener('click', (e) => {
     const editBtn = e.target.closest('.edit-btn');
     const deleteBtn = e.target.closest('.delete-btn');
 
@@ -112,13 +118,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       modal.show();
     }
 
-    // Delete product
+    // Delete product - Show confirmation modal
     if (deleteBtn) {
-      const index = parseInt(deleteBtn.getAttribute('data-index'));
-      if (confirm('Are you sure you want to delete this product?')) {
-        products.splice(index, 1);
-        await window.electronAPI.writeFile(products);
-        renderProducts();
+      deleteIndex = parseInt(deleteBtn.getAttribute('data-index'));
+      const modal = new bootstrap.Modal(document.getElementById('deleteProductModal'));
+      modal.show();
+    }
+  });
+
+  // Confirm delete action
+  confirmDeleteBtn.addEventListener('click', async () => {
+    if (deleteIndex !== null) {
+      products.splice(deleteIndex, 1);
+      await window.electronAPI.writeFile(products);
+      renderProducts();
+      deleteIndex = null;
+      
+      // Close the delete modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('deleteProductModal'));
+      if (modal) {
+        modal.hide();
       }
     }
   });
@@ -145,7 +164,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Close modal and reset edit index
     const modal = bootstrap.Modal.getInstance(document.getElementById('editProductModal'));
-    modal.hide();
+    if (modal) {
+      modal.hide();
+    }
     currentEditIndex = null;
   });
 
