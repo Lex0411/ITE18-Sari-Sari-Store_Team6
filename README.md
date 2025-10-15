@@ -10,7 +10,6 @@ A desktop-based inventory system built with **Electron.js**, **HTML**, **CSS**, 
 ### Run locally
 **Clone this repository**
    ```bash
-   git clone https://github.com/your-username/tres-tindahan.git
    cd tres-tindahan
    npm install
    npm start
