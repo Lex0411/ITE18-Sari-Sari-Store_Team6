@@ -288,6 +288,13 @@ body {
   border-radius: 0 0 16px 16px;
 }
 
+.modal-footer .btn {
+  min-width: 110px;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
 .btn-close {
   filter: brightness(0) invert(1);
   opacity: 0.8;
