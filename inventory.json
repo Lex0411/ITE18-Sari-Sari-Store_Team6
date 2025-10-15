@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Roller Coaster",
+    "category": "Snacks",
+    "price": 14,
+    "stock": 10
+  },
+  {
+    "name": "Tissue",
+    "category": "Toiletries",
+    "price": 30,
+    "stock": 20
+  },
+  {
+    "name": "Piattos",
+    "category": "Snacks",
+    "price": 20,
+    "stock": 15
+  },
+  {
+    "name": "Fita",
+    "category": "Snacks",
+    "price": 10,
+    "stock": 5
+  }
+]

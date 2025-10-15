@@ -1,0 +1,25 @@
+{
+  "name": "tres-tindahan",
+  "version": "1.0.0",
+  "description": "Tindahan ni Tres",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "set CSC_IDENTITY_AUTO_DISCOVERY=false && electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Cabase, Albaciete, Sayahan",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^38.2.2",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.tres.tindahan",
+    "productName": "Tres Tindahan Inventory",
+    "win": {
+      "target": ["nsis", "portable"]
+    }
+  }
+}
