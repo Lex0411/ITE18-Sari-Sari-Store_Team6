@@ -372,26 +372,3 @@ body {
 .table tbody tr {
   animation: fadeIn 0.3s ease;
 }
-
-/* Stock level indicators */
-.stock-high {
-  color: var(--success);
-  font-weight: 600;
-}
-
-.stock-medium {
-  color: var(--warning);
-  font-weight: 600;
-}
-
-.stock-low {
-  color: var(--danger);
-  font-weight: 600;
-}
-
-/* Price styling */
-.price-cell {
-  color: var(--ocean-blue);
-  font-weight: 600;
-  font-size: 1.05rem;
-}
