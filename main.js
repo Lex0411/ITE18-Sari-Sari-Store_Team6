@@ -19,20 +19,36 @@ function createWindow() {
   win.setTitle("Tres Sari-Sari Store Inventory");
 }
 
-// Path where inventory data is stored
-const filePath = path.join(__dirname, 'inventory.json');
+// Use app.getPath('userData') to store data in a writable location
+const userDataPath = app.getPath('userData');
+const filePath = path.join(userDataPath, 'inventory.json');
+
+// Ensure the userData directory exists
+if (!fs.existsSync(userDataPath)) {
+  fs.mkdirSync(userDataPath, { recursive: true });
+}
 
 // Read inventory data from file
 ipcMain.handle('read-file', async () => {
-  if (!fs.existsSync(filePath)) return [];
-  const data = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(data);
+  try {
+    if (!fs.existsSync(filePath)) return [];
+    const data = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error reading file:', error);
+    return [];
+  }
 });
 
 // Write inventory data to file
 ipcMain.handle('write-file', async (_, data) => {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  return true;
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    return true;
+  } catch (error) {
+    console.error('Error writing file:', error);
+    return false;
+  }
 });
 
 // Check if inventory file exists
@@ -42,3 +58,17 @@ ipcMain.handle('file-exists', async () => {
 
 // Start app when ready
 app.whenReady().then(createWindow);
+
+// Quit when all windows are closed (except on macOS)
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+// Re-create window when dock icon is clicked on macOS
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
